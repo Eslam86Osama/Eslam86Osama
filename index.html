@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Create dynamic elements using JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        // Create the form and its elements
+        const form = document.createElement("form");
+        form.id = "myForm";
+
+        const createField = (labelText, inputType, inputId) => {
+          const container = document.createElement("div");
+
+          const label = document.createElement("label");
+          label.textContent = labelText;
+          label.htmlFor = inputId;
+          container.appendChild(label);
+
+          const input = document.createElement("input");
+          input.type = inputType;
+          input.id = inputId;
+          input.name = inputId;
+          container.appendChild(input);
+
+          const errorMsg = document.createElement("small");
+          errorMsg.className = "error-message";
+          errorMsg.style.color = "red";
+          container.appendChild(errorMsg);
+
+          form.appendChild(container);
+        };
+
+        // Create the fields
+        createField("Username:", "text", "username");
+        createField("Email:", "email", "email");
+        createField("Password:", "password", "password");
+
+        // Submit button
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.textContent = "Submit";
+        form.appendChild(submitButton);
+
+        // Add the form to the page
+        document.body.appendChild(form);
+
+        // Add validation to the form
+        form.addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          let isValid = true;
+          const username = document.getElementById("username");
+          const email = document.getElementById("email");
+          const password = document.getElementById("password");
+
+          // Clean up error messages
+          const errorMessages = document.querySelectorAll(".error-message");
+          errorMessages.forEach((msg) => (msg.textContent = ""));
+
+          // Verify username
+          if (username.value.trim() === "") {
+            username.nextElementSibling.textContent = "Username is required.";
+            isValid = false;
+          }
+
+          // Verify email
+          if (email.value.trim() === "") {
+            email.nextElementSibling.textContent = "Email is required.";
+            isValid = false;
+          } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+            email.nextElementSibling.textContent = "Invalid email format.";
+            isValid = false;
+          }
+
+          // Verify password
+          if (password.value.trim() === "") {
+            password.nextElementSibling.textContent = "Password is required.";
+            isValid = false;
+          } else if (password.value.length < 6) {
+            password.nextElementSibling.textContent =
+              "Password must be at least 6 characters.";
+            isValid = false;
+          }
+
+          // If all fields are correct
+          if (isValid) {
+            alert("Form submitted successfully!");
+          }
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const style = document.createElement("style");
+        style.textContent = `
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 2px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: block;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    `;
+        document.head.appendChild(style);
+      });
+    </script>
+  </body>
+</html>
